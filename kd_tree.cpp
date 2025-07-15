@@ -11,7 +11,6 @@ struct Point {
 
 struct Node {
     Point point;
-    
     Node* left;
     Node* right;
 
@@ -19,20 +18,10 @@ struct Node {
 };
 
 struct KDTree {
+private:
     Node* root;
     int k; // dimensions
     
-    KDTree(int dimensions) : root(nullptr), k(!dimensions ? 1 : dimensions) {}
-
-    void insert(Point point) {
-        root = insert_recursive(root, point, 0);
-    }
-
-    bool search(Point point) {
-        return search_recursive(root, point, 0);
-    }
-
-private:
     Node* insert_recursive(Node* node, Point point, int depth) {
         if(node == nullptr) {
             return new Node(point);
@@ -69,6 +58,17 @@ private:
         } else {
             return search_recursive(node->right, point, depth + 1);
         }
+    }
+  
+public:
+    KDTree(int dimensions) : root(nullptr), k(!dimensions ? 1 : dimensions) {}
+
+    void insert(Point point) {
+        root = insert_recursive(root, point, 0);
+    }
+
+    bool search(Point point) {
+        return search_recursive(root, point, 0);
     }
 };
 
